@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\Crawler;
 use Illuminate\Http\Response;
+use Illuminate\View\View;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\Foundation\Application;
 
 class CrawlerController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @param Request $request
-     * @return Response
      */
     public function __invoke(Request $request)
     {
