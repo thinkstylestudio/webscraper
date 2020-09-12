@@ -16,14 +16,17 @@ class CrawlerController extends Controller
      */
     public function __invoke(Request $request)
     {
-
-        //- Table to display each page crawled and it's status code
-        $baseUrl = 'https://thinkstylestudio.com';
         $onlyInternal = true;
-        $limit = 30;
+
+        $validatedData = $request->validate(
+            [
+                'baseUrl' => 'required|url|max:255',
+                'limit' => 'required|integer|max:30'
+            ]
+        );
 
         $crawler = new Crawler();
-        $elements = $crawler->retrieveElements($baseUrl, $limit, $onlyInternal);
+        $elements = $crawler->retrieveElements($validatedData['baseUrl'], $validatedData['limit'], $onlyInternal);
         //- Number of a unique images
         $numberOfUniqueImages = $crawler->getNumberOfUniqueImages($elements);
         //- Number of unique internal links
@@ -34,6 +37,7 @@ class CrawlerController extends Controller
         $averagePerPageWordCount = $crawler->averagePerPageWordCount($elements);
         //- Avg Title length
         $averageHeadingLength = $crawler->getAverageHeadingLength($elements);
+
         return view(
             'welcome',
             [
